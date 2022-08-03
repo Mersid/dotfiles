@@ -31,57 +31,57 @@ function prompt {
 	
 }
 
-# --------------------------------------------------- P R O M P T S ---------------------------------------------------
+# # --------------------------------------------------- P R O M P T S ---------------------------------------------------
 
-prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
-installCompilerTools=$?;
+# prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
+# installCompilerTools=$?;
 
-# Install btop prompt is shown only if compiler tools will be installed
-cloneBtop=0
-if [ $installCompilerTools -eq 1 ]
-then
-	prompt "Install btop? [Y/n]" 1
-	cloneBtop=$?
-fi
+# # Install btop prompt is shown only if compiler tools will be installed
+# cloneBtop=0
+# if [ "$installCompilerTools" -eq 1 ]
+# then
+# 	prompt "Install btop? [Y/n]" 1
+# 	cloneBtop=$?
+# fi
 
-prompt "Install nala? [Y/n] " 1
-installNala=$?
+# prompt "Install nala? [Y/n] " 1
+# installNala=$?
 
-prompt "Configuration complete. Ready to install. Proceed? [Y/n] " 1
-if [ $? -eq 0 ]
-then
-	echo "Exiting"
-	exit
-fi
+# prompt "Configuration complete. Ready to install. Proceed? [Y/n] " 1
+# if [ "$?" -eq 0 ]
+# then
+# 	echo "Exiting"
+# 	exit
+# fi
 
-# ------------------------------------------------ R U N   S C R I P T ------------------------------------------------
+# # ------------------------------------------------ R U N   S C R I P T ------------------------------------------------
 
-# Update apt repositories
-apt update
-apt full-upgrade
+# # Update apt repositories
+# apt update
+# apt full-upgrade
 
-# Install required/requested packages
-apt install -y wget git
-pip3 install mackup
+# # Install required/requested packages
+# apt install -y wget git
+# pip3 install mackup
 
-# Bootstrap and run mackup
-git clone "https://github.com/Mersid/dotfiles" .dotfiles
+# # Bootstrap and run mackup
+# git clone "https://github.com/Mersid/dotfiles" .dotfiles
 
 
-# Install optional dependencies
+# # Install optional dependencies
 
-if [ "$installCompilerTools" -eq 1 ]
-then
-	apt install -y make cmake g++
-fi
+# if [ "$installCompilerTools" -eq 1 ]
+# then
+# 	apt install -y make cmake g++
+# fi
 
-if [ "$cloneBtop" -eq 1 ]
-then
-	git clone "https://github.com/aristocratos/btop"
-fi
+# if [ "$cloneBtop" -eq 1 ]
+# then
+# 	git clone "https://github.com/aristocratos/btop"
+# fi
 
-if [ "$installNala" -eq 1 ]
-then
-	pip3 install nala
-fi
+# if [ "$installNala" -eq 1 ]
+# then
+# 	pip3 install nala
+# fi
 
