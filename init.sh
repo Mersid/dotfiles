@@ -67,6 +67,9 @@ sudo apt full-upgrade -y
 
 # Install required/requested packages
 sudo apt install -y sudo wget git python3-pip neovim
+sudo apt purge -y snapd
+sudo apt autopurge -y
+
 sudo pip3 install mackup
 
 # Install optional dependencies
