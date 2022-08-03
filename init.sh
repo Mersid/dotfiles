@@ -65,7 +65,7 @@ apt install -y wget git
 pip3 install mackup
 
 # Bootstrap and run mackup
-git clone "https://github.com/Mersid/dotfiles"
+git clone "https://github.com/Mersid/dotfiles" .dotfiles
 
 
 # Install optional dependencies
