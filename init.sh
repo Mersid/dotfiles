@@ -93,6 +93,7 @@ fi
 # Bootstrap and run mackup
 git clone "https://github.com/Mersid/dotfiles" .dotfiles
 ln -s ./.dotfiles/.mackup.cfg .
+mackup --force restore
 
 # Set files to user ownership
 chown -R $(whoami):$(whoami) .
