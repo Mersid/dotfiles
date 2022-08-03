@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # ------------------------------------------------------ I N I T ------------------------------------------------------
-# Ensure script is run as root
-# if [ "$EUID" -ne 0 ]
-# then
-# 	echo "This script must be run as root!"
-# 	exit
-# fi
+# Ensure script is not run as root
+if [ "$EUID" -eq 0 ]
+then
+	echo "This script cannot be run as root!"
+	exit
+fi
 
 # ------------------------------------------------- F U N C T I O N S -------------------------------------------------
 # Prompt the user for a yes or no answer
