@@ -58,6 +58,9 @@ fi
 # Don't show purple prompt to restart services
 export DEBIAN_FRONTEND=noninteractive
 
+# Set dir to ~/
+cd
+
 # Update apt repositories
 apt update -y
 apt full-upgrade -y
@@ -65,10 +68,6 @@ apt full-upgrade -y
 # Install required/requested packages
 apt install -y sudo wget git python3-pip neovim
 pip3 install mackup
-
-# Bootstrap and run mackup
-git clone "https://github.com/Mersid/dotfiles" .dotfiles
-
 
 # Install optional dependencies
 
@@ -91,3 +90,9 @@ then
 	pip3 install nala
 fi
 
+# Bootstrap and run mackup
+git clone "https://github.com/Mersid/dotfiles" .dotfiles
+ln -s ./.dotfiles/.mackup.cfg .
+
+# Set files to user ownership
+chown -R $(whoami):$(whoami) .
