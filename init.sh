@@ -38,7 +38,7 @@ installCompilerTools=$?;
 
 # Install btop prompt is shown only if compiler tools will be installed
 cloneBtop=0
-if [ "$installCompilerTools" -eq 1 ]
+if [ $installCompilerTools -eq 1 ]
 then
 	prompt "Install btop? [Y/n]" 1
 	cloneBtop=$?
