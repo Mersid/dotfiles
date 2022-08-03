@@ -65,6 +65,7 @@ apt install -y wget git
 pip3 install mackup
 
 # Bootstrap and run mackup
+git clone "https://github.com/Mersid/dotfiles"
 
 
 # Install optional dependencies
@@ -76,7 +77,7 @@ fi
 
 if [ "$cloneBtop" -eq 1 ]
 then
-	git clone "github.com/aristocratos/btop"
+	git clone "https://github.com/aristocratos/btop"
 fi
 
 if [ "$installNala" -eq 1 ]
