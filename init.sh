@@ -57,8 +57,8 @@ fi
 # ------------------------------------------------ R U N   S C R I P T ------------------------------------------------
 
 # Update apt repositories
-apt update
-apt full-upgrade
+apt update -y
+apt full-upgrade -y
 
 # Install required/requested packages
 apt install -y wget git
