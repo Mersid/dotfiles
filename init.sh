@@ -2,11 +2,11 @@
 
 # ------------------------------------------------------ I N I T ------------------------------------------------------
 # Ensure script is run as root
-if [ "$EUID" -ne 0 ]
-then
-	echo "This script must be run as root!"
-	exit
-fi
+# if [ "$EUID" -ne 0 ]
+# then
+# 	echo "This script must be run as root!"
+# 	exit
+# fi
 
 # ------------------------------------------------- F U N C T I O N S -------------------------------------------------
 # Prompt the user for a yes or no answer
@@ -62,18 +62,23 @@ export DEBIAN_FRONTEND=noninteractive
 cd
 
 # Update apt repositories
-apt update -y
-apt full-upgrade -y
+sudo apt update -y
+sudo apt full-upgrade -y
 
 # Install required/requested packages
-apt install -y sudo wget git python3-pip neovim
-pip3 install mackup
+sudo apt install -y sudo wget git python3-pip neovim
+sudo pip3 install mackup
 
 # Install optional dependencies
 
 if [ "$installCompilerTools" -eq 1 ]
 then
-	apt install -y make cmake g++
+	sudo apt install -y make cmake g++
+fi
+
+if [ "$installNala" -eq 1 ]
+then
+	sudo pip3 install nala
 fi
 
 if [ "$cloneBtop" -eq 1 ]
@@ -85,15 +90,7 @@ then
 	cd ..
 fi
 
-if [ "$installNala" -eq 1 ]
-then
-	pip3 install nala
-fi
-
 # Bootstrap and run mackup
 git clone "https://github.com/Mersid/dotfiles" .dotfiles
 ln -s ./.dotfiles/.mackup.cfg .
 mackup --force restore
-
-# Set files to user ownership
-chown -R $(whoami):$(whoami) .
