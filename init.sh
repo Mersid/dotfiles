@@ -34,7 +34,7 @@ function prompt {
 # --------------------------------------------------- P R O M P T S ---------------------------------------------------
 
 prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
-installCompilerTools=$?;
+installCompilerTools=$?
 
 # Install btop prompt is shown only if compiler tools will be installed
 cloneBtop=0
