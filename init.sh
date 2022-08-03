@@ -14,7 +14,7 @@ fi
 # $2: 0 for default no, other for default yes
 # $?: 0 if no, 1 if yes
 function prompt {
-	read -p "$1" yn
+	read -rp "$1" yn
 	case $yn in
 		[Yy]* ) 
 			return 1;;
@@ -34,10 +34,10 @@ function prompt {
 # --------------------------------------------------- P R O M P T S ---------------------------------------------------
 
 prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
-installCompilerTools=$?
+installCompilerTools=$?;
 
 # Install btop prompt is shown only if compiler tools will be installed
-cloneBtop=""
+cloneBtop=0
 if [ "$installCompilerTools" -eq 1 ]
 then
 	prompt "Install btop? [Y/n]" 1
