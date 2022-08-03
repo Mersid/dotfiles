@@ -56,7 +56,7 @@ fi
 
 # ------------------------------------------------ R U N   S C R I P T ------------------------------------------------
 # Don't show purple prompt to restart services
-export DEBIAN_FRONTEND=noninteractive
+sudo export DEBIAN_FRONTEND=noninteractive
 
 # Set dir to ~/
 cd
@@ -89,7 +89,7 @@ then
 	git clone "https://github.com/aristocratos/btop"
 	cd btop
 	make -j 16
-	make install
+	sudo make install
 	cd ..
 fi
 
