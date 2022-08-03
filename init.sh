@@ -56,19 +56,19 @@ fi
 
 # ------------------------------------------------ R U N   S C R I P T ------------------------------------------------
 # Don't show purple prompt to restart services
-sudo export DEBIAN_FRONTEND=noninteractive
+noupdate="DEBIAN_FRONTEND=noninteractive"
 
 # Set dir to ~/
 cd
 
 # Update apt repositories
-sudo apt update -y
-sudo apt full-upgrade -y
+sudo "$noupdate" apt update -y
+sudo "$noupdate" apt full-upgrade -y
 
 # Install required/requested packages
-sudo apt install -y sudo wget git python3-pip neovim
-sudo apt purge -y snapd
-sudo apt autopurge -y
+sudo "$noupdate" apt install -y sudo wget git python3-pip neovim
+sudo "$noupdate" apt purge -y snapd
+sudo "$noupdate" apt autopurge -y
 
 sudo pip3 install mackup
 
@@ -76,7 +76,7 @@ sudo pip3 install mackup
 
 if [ "$installCompilerTools" -eq 1 ]
 then
-	sudo apt install -y make cmake g++
+	sudo "$noupdate" apt install -y make cmake g++
 fi
 
 if [ "$installNala" -eq 1 ]
