@@ -48,7 +48,7 @@ prompt "Install nala? [Y/n] " 1
 installNala=$?
 
 prompt "Configuration complete. Ready to install. Proceed? [Y/n] " 1
-if [ "$?" -eq 0 ]
+if [ $? -eq 0 ]
 then
 	echo "Exiting"
 	exit
