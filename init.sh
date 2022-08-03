@@ -61,7 +61,7 @@ apt update -y
 apt full-upgrade -y
 
 # Install required/requested packages
-apt install -y wget git
+apt install -y wget git python3-pip
 pip3 install mackup
 
 # Bootstrap and run mackup
