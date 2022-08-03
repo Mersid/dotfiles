@@ -55,13 +55,15 @@ then
 fi
 
 # ------------------------------------------------ R U N   S C R I P T ------------------------------------------------
+# Don't show purple prompt to restart services
+export DEBIAN_FRONTEND=noninteractive
 
 # Update apt repositories
 apt update -y
 apt full-upgrade -y
 
 # Install required/requested packages
-apt install -y wget git python3-pip
+apt install -y sudo wget git python3-pip neovim
 pip3 install mackup
 
 # Bootstrap and run mackup
@@ -78,6 +80,10 @@ fi
 if [ "$cloneBtop" -eq 1 ]
 then
 	git clone "https://github.com/aristocratos/btop"
+	cd btop
+	make -j 16
+	make install
+	cd ..
 fi
 
 if [ "$installNala" -eq 1 ]
