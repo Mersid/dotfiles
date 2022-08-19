@@ -87,6 +87,10 @@ if [ -x /usr/bin/dircolors ]; then
     alias less='less -r'
 	alias acp='rsync -ah --info=progress2'
 	alias sudo='sudo '
+
+    alias vim='nvim'
+    alias vimdiff='nvim -d'
+    export EDITOR=nvim
 fi
 
 # colored GCC warnings and errors

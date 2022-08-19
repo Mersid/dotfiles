@@ -2,11 +2,11 @@
 
 # ------------------------------------------------------ I N I T ------------------------------------------------------
 # Ensure script is not run as root
-if [ "$EUID" -eq 0 ]
-then
-	echo "This script cannot be run as root!"
-	exit
-fi
+# if [ "$EUID" -eq 0 ]
+# then
+# 	echo "This script cannot be run as root!"
+# 	exit
+# fi
 
 # ------------------------------------------------- F U N C T I O N S -------------------------------------------------
 # Prompt the user for a yes or no answer
@@ -58,6 +58,9 @@ fi
 # Don't show purple prompt to restart services
 noupdate="DEBIAN_FRONTEND=noninteractive"
 
+# Get the number of CPU cores the system has
+coreCount=$(sudo grep -c ^processor /proc/cpuinfo)
+
 # Set dir to ~/
 cd
 
@@ -91,7 +94,7 @@ if [ "$cloneBtop" -eq 1 ]
 then
 	git clone "https://github.com/aristocratos/btop"
 	cd btop
-	make -j 16
+	make -j "$(expr $(grep -c ^processor /proc/cpuinfo) \* 2)" # Process two files for every cpu core
 	sudo make install
 	cd ..
 fi
