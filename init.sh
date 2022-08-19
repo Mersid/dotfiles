@@ -105,7 +105,7 @@ fi
 if [ "$installNeovim" -eq 1 ]
 then
 	sudo add-apt-repository -y ppa:neovim-ppa/unstable
-	sudo apt install neovim
+	sudo "$noupdate" apt install -y neovim
 fi
 
 # Bootstrap and run mackup
