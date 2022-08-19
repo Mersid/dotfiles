@@ -44,6 +44,9 @@ then
 	cloneBtop=$?
 fi
 
+prompt "Install neovim? [Y/n] " 1
+installNeovim=$?
+
 prompt "Install nala? [Y/n] " 1
 installNala=$?
 
@@ -69,7 +72,7 @@ sudo "$noupdate" apt update -y
 sudo "$noupdate" apt full-upgrade -y
 
 # Install required/requested packages
-sudo "$noupdate" apt install -y sudo wget git python3-pip neovim
+sudo "$noupdate" apt install -y python3-pip
 sudo "$noupdate" apt purge -y snapd
 sudo "$noupdate" apt autopurge -y
 
@@ -97,6 +100,12 @@ then
 	make -j "$(expr $(grep -c ^processor /proc/cpuinfo) \* 2)" # Process two files for every cpu core
 	sudo make install
 	cd ..
+fi
+
+if [ "$installNeovim" -eq 1 ]
+then
+	sudo add-apt-repository -y ppa:neovim-ppa/unstable
+	sudo apt install neovim
 fi
 
 # Bootstrap and run mackup
