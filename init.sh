@@ -111,4 +111,4 @@ fi
 # Bootstrap and run mackup
 git clone "https://github.com/Mersid/dotfiles" .dotfiles
 ln -s ./.dotfiles/.mackup.cfg .
-mackup --force restore
+mackup --force --root restore
