@@ -102,5 +102,5 @@ git clone "https://github.com/Mersid/dotfiles" .dotfiles
 ln -s .dotfiles/.config .
 ln -s .dotfiles/.bash_logout .
 ln -s .dotfiles/.bashrc .
-ln -s .dotfiles/.profile
-ln -s .dotfiles/.vimrc
+ln -s .dotfiles/.profile .
+ln -s .dotfiles/.vimrc .
