@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# ------------------------------------------------------ I N I T ------------------------------------------------------
-# Ensure script is not run as root
-# if [ "$EUID" -eq 0 ]
-# then
-# 	echo "This script cannot be run as root!"
-# 	exit
-# fi
-
 # ------------------------------------------------- F U N C T I O N S -------------------------------------------------
 # Prompt the user for a yes or no answer
 # $1: The string to display to the user
@@ -70,13 +62,9 @@ cd
 # Update apt repositories
 sudo "$noupdate" apt update -y
 sudo "$noupdate" apt full-upgrade -y
-
-# Install required/requested packages
-sudo "$noupdate" apt install -y python3-pip
 sudo "$noupdate" apt purge -y snapd
 sudo "$noupdate" apt autopurge -y
 
-sudo pip3 install mackup
 
 # Install optional dependencies
 
@@ -95,7 +83,7 @@ fi
 
 if [ "$cloneBtop" -eq 1 ]
 then
-	git clone "https://github.com/aristocratos/btop"
+	git clone --recursive "https://github.com/aristocratos/btop"
 	cd btop
 	make -j "$(expr $(grep -c ^processor /proc/cpuinfo) \* 2)" # Process two files for every cpu core
 	sudo make install
@@ -108,7 +96,11 @@ then
 	sudo "$noupdate" apt install -y neovim
 fi
 
-# Bootstrap and run mackup
+# Bootstrap create symlinks
 git clone "https://github.com/Mersid/dotfiles" .dotfiles
-ln -s ./.dotfiles/.mackup.cfg .
-mackup --force --root restore
+
+ln -s .dotfiles/.config .
+ln -s .dotfiles/.bash_logout .
+ln -s .dotfiles/.bashrc .
+ln -s .dotfiles/.profile
+ln -s .dotfiles/.vimrc
