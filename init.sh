@@ -99,6 +99,13 @@ fi
 # Bootstrap create symlinks
 git clone "https://github.com/Mersid/dotfiles" .dotfiles
 
+# Delete existing files to make way for symlinks
+rm -f .config
+rm -f .bash_logout
+rm -f .bashrc
+rm -f .profile
+rm -f .vimrc
+
 ln -s .dotfiles/.config .
 ln -s .dotfiles/.bash_logout .
 ln -s .dotfiles/.bashrc .
