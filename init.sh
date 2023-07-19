@@ -96,9 +96,6 @@ then
 	sudo "$noupdate" apt install -y neovim
 fi
 
-# Bootstrap create symlinks
-git clone "https://github.com/Mersid/dotfiles" .dotfiles
-
 # Delete existing files to make way for symlinks
 rm -f .config
 rm -f .bash_logout
