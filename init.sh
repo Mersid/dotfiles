@@ -42,6 +42,9 @@ installNeovim=$?
 prompt "Install nala? [Y/n] " 1
 installNala=$?
 
+prompt "Install bat? [Y/n] " 1
+installBat=$?
+
 prompt "Configuration complete. Ready to install. Proceed? [Y/n] " 1
 if [ "$?" -eq 0 ]
 then
@@ -94,6 +97,11 @@ if [ "$installNeovim" -eq 1 ]
 then
 	sudo add-apt-repository -y ppa:neovim-ppa/unstable
 	sudo "$noupdate" apt install -y neovim
+fi
+
+if [ "$installBat" -eq 1 ]
+then
+	sudo "$noupdate" apt install -y bat
 fi
 
 # Delete existing files to make way for symlinks

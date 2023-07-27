@@ -91,6 +91,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias vim='nvim'
     alias vimdiff='nvim -d'
     export EDITOR=nvim
+
+    alias bat='batcat'
 fi
 
 # colored GCC warnings and errors
