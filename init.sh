@@ -82,6 +82,7 @@ then
 	wget -qO - https://deb.volian.org/volian/scar.key | sudo tee /etc/apt/trusted.gpg.d/volian-archive-scar-unstable.gpg > /dev/null
 	sudo "$noupdate" apt update -y
 	sudo "$noupdate" apt install -y nala
+ 	sudo sed -i "s/scrolling_text = true/scrolling_text = false/g" /etc/nala/nala.conf
 fi
 
 if [ "$cloneBtop" -eq 1 ]
