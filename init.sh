@@ -115,13 +115,13 @@ then
 	sudo "$noupdate" apt install -y bat
 fi
 
-# Make the .bashrc file source .dotfiles/.bashrc2, allowing for non-destructive edits
-sourceCommand=". $HOME/.dotfiles/.bashrc2"
+# Make the .bashrc file source .dotfiles/.bashrc, allowing for non-destructive edits
+sourceCommand=". $HOME/.dotfiles/.bashrc"
 bashrcPath="$HOME/.bashrc"
 
 # If the line is not in the .bashrc file, then we append it to the end of the file.
 # Don't add the line manually into an if-block in the .bashrc file, since this grep will
-# find it and leave it, but if the if block doesn't run, .bashrc2 will never be sourced.
+# find it and leave it, but if the if block doesn't run, .bashrc will never be sourced.
 # In short, just let this script handle it.
 if ! grep -qF "$sourceCommand" "$bashrcPath"
 then
