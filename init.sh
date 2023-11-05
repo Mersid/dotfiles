@@ -29,7 +29,7 @@ prompt "Do you want to install any tools? Doing so will require root privileges.
 installAnything=$?
 
 installCompilerTools=0
-cloneBtop=0
+installBtop=0
 installNeovim=0
 installNala=0
 installBat=0
@@ -43,12 +43,12 @@ then
 	if [ "$installCompilerTools" -eq 1 ]
 	then
 		prompt "Install btop? [Y/n]" 1
-		cloneBtop=$?
+		installBtop=$?
+
+		prompt "Install neovim? [Y/n] " 1
+		installNeovim=$?
 	fi
-
-	prompt "Install neovim? [Y/n] " 1
-	installNeovim=$?
-
+	
 	prompt "Install nala? [Y/n] " 1
 	installNala=$?
 
@@ -95,7 +95,7 @@ then
  	sudo sed -i "s/scrolling_text = true/scrolling_text = false/g" /etc/nala/nala.conf
 fi
 
-if [ "$cloneBtop" -eq 1 ]
+if [ "$installBtop" -eq 1 ]
 then
 	git clone --recursive "https://github.com/aristocratos/btop"
 	cd btop
@@ -106,8 +106,14 @@ fi
 
 if [ "$installNeovim" -eq 1 ]
 then
-	sudo add-apt-repository -y ppa:neovim-ppa/unstable
-	sudo "$noupdate" apt install -y neovim
+	# sudo add-apt-repository -y ppa:neovim-ppa/unstable
+	# sudo "$noupdate" apt install -y neovim
+	sudo apt-get install ninja-build gettext cmake unzip curl
+	git clone https://github.com/neovim/neovim
+	cd neovim
+	make CMAKE_BUILD_TYPE=RelWithDebInfo
+	sudo make install
+	cd ..
 fi
 
 if [ "$installBat" -eq 1 ]
