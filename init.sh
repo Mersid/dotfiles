@@ -107,13 +107,9 @@ fi
 
 # Delete existing files to make way for symlinks
 rm -rf .config
-rm -rf .bash_logout
 rm -rf .bashrc
-rm -rf .profile
 rm -rf .vimrc
 
 ln -s .dotfiles/.config .
-ln -s .dotfiles/.bash_logout .
 ln -s .dotfiles/.bashrc .
-ln -s .dotfiles/.profile .
 ln -s .dotfiles/.vimrc .
