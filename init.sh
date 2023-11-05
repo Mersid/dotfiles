@@ -128,6 +128,11 @@ then
 	echo "$sourceCommand" >> "$bashrcPath"
 fi
 
+# Create .config directory with correct permissions
+mkdir -p .config
+chown $USER:$USER .config
+chmod 700 .config
+
 # Delete existing files to make way for symlinks
 rm -rf .config/btop
 rm -rf .config/nvim
