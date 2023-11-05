@@ -139,8 +139,8 @@ rm -rf .config/nvim
 rm -rf .config/tmux
 rm -rf .vimrc
 
-ln -s .dotfiles/.config/btop .config/
-ln -s .dotfiles/.config/nvim .config/
-ln -s .dotfiles/.config/tmux .config/
+ln -s ../../.dotfiles/.config/btop .config/
+ln -s ../../.dotfiles/.config/nvim .config/
+ln -s ../../.dotfiles/.config/tmux .config/
 ln -s .dotfiles/.vimrc .
 
