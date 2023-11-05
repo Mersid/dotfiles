@@ -125,7 +125,7 @@ bashrcPath="$HOME/.bashrc"
 # In short, just let this script handle it.
 if ! grep -qF "$sourceCommand" "$bashrcPath"
 then
-	echo "$sourceCommand" >> "$bashrcPath"
+	echo -e "\n$sourceCommand" >> "$bashrcPath"
 fi
 
 # Create .config directory with correct permissions
