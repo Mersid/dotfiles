@@ -25,7 +25,7 @@ function prompt {
 
 # --------------------------------------------------- P R O M P T S ---------------------------------------------------
 
-prompt "Do you want to install any tools? Doing so will require root privileges. [Y/n]" 1
+prompt "Do you want to install any tools? Doing so will require root privileges. [Y/n] " 1
 installAnything=$?
 
 installCompilerTools=0
