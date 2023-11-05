@@ -108,7 +108,7 @@ if [ "$installNeovim" -eq 1 ]
 then
 	# sudo add-apt-repository -y ppa:neovim-ppa/unstable
 	# sudo "$noupdate" apt install -y neovim
-	sudo apt-get install ninja-build gettext cmake unzip curl
+	sudo "$noupdate" apt install -y ninja-build gettext cmake unzip curl
 	git clone https://github.com/neovim/neovim
 	cd neovim
 	make CMAKE_BUILD_TYPE=RelWithDebInfo
