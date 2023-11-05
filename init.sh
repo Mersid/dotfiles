@@ -36,10 +36,10 @@ installBat=0
 
 if [ "$installAnything" -eq 1 ]
 then
-	prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
+	prompt "Install compiler tools (make, cmake, g++; required for btop and neovim)? [Y/n] " 1
 	installCompilerTools=$?
 
-	# Install btop prompt is shown only if compiler tools will be installed
+	# Compiled program prompts are shown only if compiler tools will be installed
 	if [ "$installCompilerTools" -eq 1 ]
 	then
 		prompt "Install btop? [Y/n]" 1
