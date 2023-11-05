@@ -42,7 +42,7 @@ then
 	# Compiled program prompts are shown only if compiler tools will be installed
 	if [ "$installCompilerTools" -eq 1 ]
 	then
-		prompt "Install btop? [Y/n]" 1
+		prompt "Install btop? [Y/n] " 1
 		installBtop=$?
 
 		prompt "Install neovim? [Y/n] " 1
