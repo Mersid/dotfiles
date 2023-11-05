@@ -25,25 +25,36 @@ function prompt {
 
 # --------------------------------------------------- P R O M P T S ---------------------------------------------------
 
-prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
-installCompilerTools=$?
+prompt "Do you want to install any tools? Doing so will require root privileges. [Y/n]" 1
+installAnything=$?
 
-# Install btop prompt is shown only if compiler tools will be installed
+installCompilerTools=0
 cloneBtop=0
-if [ "$installCompilerTools" -eq 1 ]
+installNeovim=0
+installNala=0
+installBat=0
+
+if [ "$installAnything" -eq 1 ]
 then
-	prompt "Install btop? [Y/n]" 1
-	cloneBtop=$?
+	prompt "Install compiler tools (make, cmake, g++; required for btop)? [Y/n] " 1
+	installCompilerTools=$?
+
+	# Install btop prompt is shown only if compiler tools will be installed
+	if [ "$installCompilerTools" -eq 1 ]
+	then
+		prompt "Install btop? [Y/n]" 1
+		cloneBtop=$?
+	fi
+
+	prompt "Install neovim? [Y/n] " 1
+	installNeovim=$?
+
+	prompt "Install nala? [Y/n] " 1
+	installNala=$?
+
+	prompt "Install bat? [Y/n] " 1
+	installBat=$?
 fi
-
-prompt "Install neovim? [Y/n] " 1
-installNeovim=$?
-
-prompt "Install nala? [Y/n] " 1
-installNala=$?
-
-prompt "Install bat? [Y/n] " 1
-installBat=$?
 
 prompt "Configuration complete. Ready to install. Proceed? [Y/n] " 1
 if [ "$?" -eq 0 ]
@@ -56,18 +67,17 @@ fi
 # Don't show purple prompt to restart services
 noupdate="DEBIAN_FRONTEND=noninteractive"
 
-# Get the number of CPU cores the system has
-coreCount=$(sudo grep -c ^processor /proc/cpuinfo)
-
 # Set dir to ~/
 cd
 
-# Update apt repositories
-sudo "$noupdate" apt update -y
-sudo "$noupdate" apt full-upgrade -y
-sudo "$noupdate" apt purge -y snapd
-sudo "$noupdate" apt autopurge -y
-
+# Update apt repositories if we are in install mode
+if [ "$installAnything" -eq 1 ]
+then
+	sudo "$noupdate" apt update -y
+	sudo "$noupdate" apt full-upgrade -y
+	sudo "$noupdate" apt purge -y snapd
+	sudo "$noupdate" apt autopurge -y
+fi
 
 # Install optional dependencies
 
@@ -105,11 +115,28 @@ then
 	sudo "$noupdate" apt install -y bat
 fi
 
+# Make the .bashrc file source .dotfiles/.bashrc2, allowing for non-destructive edits
+sourceCommand=". $HOME/.dotfiles/.bashrc2"
+bashrcPath="$HOME/.bashrc"
+
+# If the line is not in the .bashrc file, then we append it to the end of the file.
+# Don't add the line manually into an if-block in the .bashrc file, since this grep will
+# find it and leave it, but if the if block doesn't run, .bashrc2 will never be sourced.
+# In short, just let this script handle it.
+if ! grep -qF "$sourceCommand" "$bashrcPath"
+then
+	echo "$sourceCommand" >> "$bashrcPath"
+fi
+
 # Delete existing files to make way for symlinks
-rm -rf .config
-rm -rf .bashrc
+rm -rf .config/btop
+rm -rf .config/nvim
+rm -rf .config/tmux
 rm -rf .vimrc
 
 ln -s .dotfiles/.config .
-ln -s .dotfiles/.bashrc .
+ln -s .dotfiles/.config/btop .
+ln -s .dotfiles/.config/nvim .
+ln -s .dotfiles/.config/tmux .
 ln -s .dotfiles/.vimrc .
+
