@@ -9,7 +9,7 @@ set.softtabstop = 4
 --set.mouse = "a"
 
 -- https://www.reddit.com/r/neovim/comments/p3b20j/lua_solution_to_writing_a_file_using_sudo/
-vim.api_nvim_set_keymap('c', 'w!!', "<esc>:lua require'utils'.sudo_write()<CR>", { silent = true })
+-- vim.api_nvim_set_keymap('c', 'w!!', "<esc>:lua require'utils'.sudo_write()<CR>", { silent = true })
 
 
 -- Set up lazy.nvim. Code copied from https://github.com/folke/lazy.nvim
@@ -26,4 +26,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local plugins = {
+	"lambdalisue/suda.vim"
+}
+
+
 require("lazy").setup(plugins, opts)
+
+-- Bind :w!! to sudo write
+vim.keymap.set("ca", "w!!", "SudaWrite")
