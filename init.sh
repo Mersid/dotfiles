@@ -99,6 +99,7 @@ if [ "$installBtop" -eq 1 ]
 then
 	git clone --recursive "https://github.com/aristocratos/btop"
 	cd btop
+	git pull
 	make -j "$(expr $(grep -c ^processor /proc/cpuinfo) \* 2)" # Process two files for every cpu core
 	sudo make install
 	cd ..
@@ -111,6 +112,7 @@ then
 	sudo "$noupdate" apt install -y ninja-build gettext cmake unzip curl
 	git clone https://github.com/neovim/neovim
 	cd neovim
+	git pull
 	make CMAKE_BUILD_TYPE=RelWithDebInfo
 	sudo make install
 	cd ..
