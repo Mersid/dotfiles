@@ -6,6 +6,8 @@ set.tabstop = 4
 set.shiftwidth = 4
 set.smarttab = true
 set.softtabstop = 4
+set.splitbelow = true
+set.splitright = true
 --set.mouse = "a"
 
 
@@ -34,4 +36,5 @@ require("lazy").setup(plugins, opts)
 vim.keymap.set("ca", "w!!", "SudaWrite")
 
 -- Set color scheme
-vim.cmd.colorscheme("lunaperche")
+-- vim.cmd.colorscheme("lunaperche")
+vim.cmd.colorscheme("sorbet") -- Might like this one a bit more!
