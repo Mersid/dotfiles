@@ -31,8 +31,13 @@ installAnything=$?
 installCompilerTools=0
 installBtop=0
 installNeovim=0
+
+installRustCompiler=0
+installLsd=0
+
 installNala=0
 installBat=0
+installDuf=0 # Like df, but better
 
 if [ "$installAnything" -eq 1 ]
 then
@@ -48,12 +53,22 @@ then
 		prompt "Install neovim? [Y/n] " 1
 		installNeovim=$?
 	fi
+
+	# Same for Rust
+	if [ "$installRustCompiler" -eq 1 ]
+	then
+		prompt "Install lsd? [Y/n] " 1
+		installLsd=$?
+	fi
 	
 	prompt "Install nala? [Y/n] " 1
 	installNala=$?
 
 	prompt "Install bat? [Y/n] " 1
 	installBat=$?
+
+	prompt "Install duf? [Y/n] " 1
+	installDuf=$?
 fi
 
 prompt "Configuration complete. Ready to install. Proceed? [Y/n] " 1
@@ -122,6 +137,22 @@ if [ "$installBat" -eq 1 ]
 then
 	sudo "$noupdate" apt install -y bat
 fi
+
+if [ "$installRustCompiler" -eq 1 ]
+then
+	# Non-interactive install rustup
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
+
+if [ "$installLsd" -eq 1 ]
+then
+	cargo install lsd
+fi
+
+if [ "$installDuf" -eq 1 ]
+	sudo "$noupdate" apt install duf
+then
+
 
 # Make the .bashrc file source .dotfiles/.bashrc, allowing for non-destructive edits
 sourceCommand=". $HOME/.dotfiles/.bashrc"

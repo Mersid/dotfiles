@@ -3,6 +3,17 @@
 alias ls='ls --color=always --group-directories-first -lAh'
 alias lsd='lsd --color=always --group-directories-first -lAv --icon-theme unicode --date +"%Y-%m-%d %H:%M:%S"'
 
+# These commands are replacements for others, so alias only if installed.
+if which lsd &> /dev/null;
+then
+	alias ls='lsd'
+fi
+
+if which duf &> /dev/null;
+then
+	alias df='duf'
+fi
+
 alias dd='dd status=progress bs=4M'
 alias less='less -r'
 alias acp='rsync -ah --info=progress2'
