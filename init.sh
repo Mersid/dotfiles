@@ -151,7 +151,11 @@ fi
 
 if [ "$installLsd" -eq 1 ]
 then
-	cargo install lsd
+	git clone https://github.com/Mersid/lsd
+	cd lsd
+	git pull
+	cargo install --path .
+	cd ..
 fi
 
 if [ "$installDuf" -eq 1 ]
