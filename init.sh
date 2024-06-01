@@ -56,7 +56,7 @@ then
 
 	# Same for Rust
 	prompt "Install Rust compiler (required for lsd)? " 1
-	installLsd = $?
+	installRustCompiler=$?
 	if [ "$installRustCompiler" -eq 1 ]
 	then
 		prompt "Install lsd? [Y/n] " 1
