@@ -155,8 +155,9 @@ then
 fi
 
 if [ "$installDuf" -eq 1 ]
-	sudo "$noupdate" apt install duf
 then
+	sudo "$noupdate" apt install duf
+fi
 
 
 # Make the .bashrc file source .dotfiles/.bashrc, allowing for non-destructive edits
