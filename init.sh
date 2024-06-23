@@ -84,8 +84,10 @@ fi
 # Don't show purple prompt to restart services
 noupdate="DEBIAN_FRONTEND=noninteractive"
 
-# Set dir to ~/
+# Create a ~/.dotprograms folder to store compiled tools
 cd
+mkdir .dotprograms
+cd .dotprograms
 
 # Update apt repositories if we are in install mode
 if [ "$installAnything" -eq 1 ]
@@ -163,6 +165,8 @@ then
 	sudo "$noupdate" apt install duf
 fi
 
+# Go back to ~/
+cd
 
 # Make the .bashrc file source .dotfiles/.bashrc, allowing for non-destructive edits
 sourceCommand=". $HOME/.dotfiles/.bashrc"
