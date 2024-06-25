@@ -34,6 +34,7 @@ installNeovim=0
 
 installRustCompiler=0
 installLsd=0
+installZoxide=0
 
 installNala=0
 installBat=0
@@ -86,8 +87,8 @@ noupdate="DEBIAN_FRONTEND=noninteractive"
 
 # Create a ~/.dotprograms folder to store compiled tools
 cd
-mkdir .dotprograms
-cd .dotprograms
+mkdir .localbin
+cd .localbin
 
 # Update apt repositories if we are in install mode
 if [ "$installAnything" -eq 1 ]
@@ -159,6 +160,16 @@ then
 	cargo install --path .
 	cd ..
 fi
+
+if [ "$installZoxide" -eq 1 ]
+then
+	git clone https://github.com/ajeetdsouza/zoxide
+	cd zoxide
+	git pull
+	cargo install --path .
+	cd ..
+fi
+
 
 if [ "$installDuf" -eq 1 ]
 then

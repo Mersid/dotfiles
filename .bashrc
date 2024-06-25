@@ -9,6 +9,13 @@ then
 	alias ls='lsd'
 fi
 
+if which zoxide &> /dev/null;
+then
+	alias cd='z'
+	# From https://github.com/ajeetdsouza/zoxide
+	eval "$(zoxide init bash)"
+fi
+
 if which duf &> /dev/null;
 then
 	alias df='duf'
