@@ -62,6 +62,9 @@ then
 	then
 		prompt "Install lsd? [Y/n] " 1
 		installLsd=$?
+
+		prompt "Install zoxide? [Y/n] " 1
+		installZoxide=$?
 	fi
 	
 	prompt "Install nala? [Y/n] " 1
