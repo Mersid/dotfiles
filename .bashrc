@@ -32,3 +32,12 @@ export EDITOR=nvim
 
 alias bat='batcat'
 
+# Fix issues with tmux not carrying over Bash history
+shopt -s histappend
+
+  # After each command, append to the history file and reload
+PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+
+HISTSIZE=5000
+HISTFILESIZE=10000
+HISTCONTROL=ignoredups:erasedups    # remove duplicates
