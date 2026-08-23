@@ -1,0 +1,5 @@
+# Deploy-time files that must never land in the home directory
+
+README.md
+provision.sh
+LICENSE

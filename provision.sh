@@ -179,35 +179,6 @@ then
 	sudo "$noupdate" apt install duf
 fi
 
-# Go back to ~/
-cd
-
-# Make the .bashrc file source .dotfiles/.bashrc, allowing for non-destructive edits
-sourceCommand=". $HOME/.dotfiles/.bashrc"
-bashrcPath="$HOME/.bashrc"
-
-# If the line is not in the .bashrc file, then we append it to the end of the file.
-# Don't add the line manually into an if-block in the .bashrc file, since this grep will
-# find it and leave it, but if the if block doesn't run, .bashrc will never be sourced.
-# In short, just let this script handle it.
-if ! grep -qF "$sourceCommand" "$bashrcPath"
-then
-	echo -e "\n$sourceCommand" >> "$bashrcPath"
-fi
-
-# Create .config directory with correct permissions
-mkdir -p .config
-chown $USER:$USER .config
-chmod 700 .config
-
-# Delete existing files to make way for symlinks
-rm -rf .config/btop
-rm -rf .config/nvim
-rm -rf .config/tmux
-rm -rf .vimrc
-
-ln -s ../.dotfiles/.config/btop .config/
-ln -s ../.dotfiles/.config/nvim .config/
-ln -s ../.dotfiles/.config/tmux .config/
-ln -s .dotfiles/.vimrc .
+# Dotfiles are deployed by chezmoi (chezmoi init --apply Mersid); this script
+# only provisions tools and no longer touches the home directory configs.
 
