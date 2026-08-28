@@ -223,3 +223,4 @@ if ((${#FAILED[@]})); then
     exit 1
 fi
 echo "All done - no failures."
+echo "Note: aliases and shell settings take effect in new shells, or run 'exec bash' to reload this one."
