@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # lib/btop.sh - btop installer with compiler-capability detection.
 #
 # Expects to be sourced by the init script, which provides:
@@ -23,13 +24,14 @@ function _gcc_ge() {
 
 # Toolchain-independent fallback: official static musl build from upstream.
 function _btop_install_static() {
-    local arch tmp rc=0
-    case "$(uname -m)" in
+    local arch tmp rc=0 machine
+    machine="$(uname -m)"
+    case "$machine" in
         x86_64)        arch="x86_64" ;;
         aarch64|arm64) arch="aarch64" ;;
-        *) echo "install_btop: no static btop build for $(uname -m)" >&2; return 1 ;;
+        *) echo "install_btop: no static btop build for $machine" >&2; return 1 ;;
     esac
-    tmp="$(mktemp -d)"
+    tmp="$(mktemp -d)" || return 1
     curl -fLo "$tmp/btop.tbz" \
         "https://github.com/aristocratos/btop/releases/latest/download/btop-${arch}-linux-musl.tbz" \
     && tar -xjf "$tmp/btop.tbz" -C "$tmp" \
