@@ -24,18 +24,19 @@ function _gcc_ge() {
 
 # Toolchain-independent fallback: official static musl build from upstream.
 function _btop_install_static() {
-    local arch tmp rc=0 machine
+    local machine arch tmp rc=0 bin
     machine="$(uname -m)"
     case "$machine" in
-        x86_64)        arch="x86_64" ;;
-        aarch64|arm64) arch="aarch64" ;;
+        x86_64)        arch="x86_64-unknown" ;;
+        aarch64|arm64) arch="aarch64-unknown" ;;
         *) echo "install_btop: no static btop build for $machine" >&2; return 1 ;;
     esac
     tmp="$(mktemp -d)" || return 1
-    curl -fLo "$tmp/btop.tbz" \
-        "https://github.com/aristocratos/btop/releases/latest/download/btop-${arch}-linux-musl.tbz" \
-    && tar -xjf "$tmp/btop.tbz" -C "$tmp" \
-    && sudo install -m 0755 "$tmp/btop/bin/btop" /usr/local/bin/btop \
+    curl -fLo "$tmp/btop.tar.gz" \
+        "https://github.com/aristocratos/btop/releases/latest/download/btop-${arch}-linux-musl.tar.gz" \
+    && tar -xzf "$tmp/btop.tar.gz" -C "$tmp" \
+    && bin="$(find "$tmp" -type f -name btop -print -quit)" \
+    && sudo install -m 0755 "$bin" /usr/local/bin/btop \
     || rc=$?
     rm -rf "$tmp"
     return "$rc"
@@ -57,7 +58,12 @@ function install_btop() {
     local cxx="g++" cc="gcc" v
     if ! _gcc_ge g++ "$BTOP_MIN_GCC"; then
         for v in "$BTOP_MIN_GCC" $((BTOP_MIN_GCC + 1)) $((BTOP_MIN_GCC + 2)); do
-            if apt_install "g++-$v" "gcc-$v" && _gcc_ge "g++-$v" "$BTOP_MIN_GCC"; then
+            # Exact-name precheck: apt-get install otherwise falls back to
+            # regex matching on missing packages (the 'clang-14 for regex
+            # g++-14' noise) and errors on every miss.
+            if apt-cache pkgnames "g++-$v" 2>/dev/null | grep -qxF "g++-$v" \
+               && apt_install "g++-$v" "gcc-$v" \
+               && _gcc_ge "g++-$v" "$BTOP_MIN_GCC"; then
                 cxx="g++-$v"; cc="gcc-$v"
                 break
             fi
