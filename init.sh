@@ -80,9 +80,14 @@ function ask() {
 
 # ----------------------------------------------------- S T E P S ------------------------------------------------------
 
+# Note: The exit status of a function is the exit status of its last command. This means that to catch an error, it must
+# either be the last command, or we use another mechanism to throw the error upward. Either use && chaining, or
+# `set -e`, which is function-scoped and terminate function execution on failure. Note, however, that it does
+# not work in if statements or `&&`/`||` chains. It also only works if the functions are subshell commands - () instead of {}.
+
 function system_update() {
-    sudo env DEBIAN_FRONTEND=noninteractive apt-get update
-    sudo env DEBIAN_FRONTEND=noninteractive apt-get full-upgrade -y
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get update \
+        && sudo env DEBIAN_FRONTEND=noninteractive apt-get full-upgrade -y
 }
 
 # Historically part of the baseline (fresh 22.04 installs, 2022): snapd was
@@ -90,36 +95,35 @@ function system_update() {
 # removes snap-packaged apps (Firefox, Chromium) and may be silently reversed
 # by later installs that depend on it.
 function remove_snapd() {
-    sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y snapd
-    sudo env DEBIAN_FRONTEND=noninteractive apt-get autopurge -y
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y snapd \
+        && sudo env DEBIAN_FRONTEND=noninteractive apt-get autopurge -y
 }
 
-function install_btop() (
-    apt_install make cmake g++ git
-    cd "$SRC_DIR" || return 1
-    rm -rf btop
-    git clone --depth 1 --recursive --branch "$BTOP_REF" https://github.com/aristocratos/btop
-    make -C btop -j"$(nproc)"
-    sudo make -C btop install
-)
+function install_btop() {
+    apt_install make cmake g++ git \
+        && cd "$SRC_DIR" \
+        && rm -rf btop \
+        && git clone --depth 1 --recursive --branch "$BTOP_REF" https://github.com/aristocratos/btop \
+        && make -C btop -j"$(nproc)" \
+        && sudo make -C btop install
+}
 
-function install_neovim() (
-    apt_install ninja-build gettext cmake unzip curl git
-    cd "$SRC_DIR" || return 1
-    rm -rf neovim
-    git clone --depth 1 --branch "$NEOVIM_REF" https://github.com/neovim/neovim
+function install_neovim() {
     # `-C` flag moves into directory before acting. Less prone to nuking directories if something fails.
-    make -C neovim CMAKE_BUILD_TYPE=RelWithDebInfo
-    sudo make -C neovim install
-)
+    apt_install ninja-build gettext cmake unzip curl git \
+        && cd "$SRC_DIR" \
+        && rm -rf neovim \
+        && git clone --depth 1 --branch "$NEOVIM_REF" https://github.com/neovim/neovim \
+        && make -C neovim CMAKE_BUILD_TYPE=RelWithDebInfo \
+        && sudo make -C neovim install
+}
 
 function install_rust() {
     # Non-interactive install rustup
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
     # Add cargo env, otherwise it won't work until shell restart
     # shellcheck disable=SC1091
-    . "$HOME/.cargo/env"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
+        && . "$HOME/.cargo/env"
 }
 
 function install_zoxide() {
@@ -130,8 +134,8 @@ function install_lsd() {
 }
 
 function install_nala() {
-    apt_install nala
-    sudo sed -i "s/scrolling_text = true/scrolling_text = false/g" /etc/nala/nala.conf
+    apt_install nala \
+        && sudo sed -i "s/scrolling_text = true/scrolling_text = false/g" /etc/nala/nala.conf
 }
 
 function install_bat() {
@@ -152,14 +156,12 @@ function backup_if_real() {
 }
 
 function link_configs() {
-    mkdir -p "$HOME/.config"
+    mkdir -p "$HOME/.config" || return 1
     local name
     for name in btop nvim tmux; do
-        backup_if_real "$HOME/.config/$name"
-        ln -sfn "$REPO_DIR/.config/$name" "$HOME/.config/$name"
+        backup_if_real "$HOME/.config/$name" && ln -sfn "$REPO_DIR/.config/$name" "$HOME/.config/$name"
     done
-    backup_if_real "$HOME/.vimrc"
-    ln -sfn "$REPO_DIR/.vimrc" "$HOME/.vimrc"
+    backup_if_real "$HOME/.vimrc" && ln -sfn "$REPO_DIR/.vimrc" "$HOME/.vimrc"
 }
 
 function link_bashrc() {
