@@ -23,6 +23,11 @@ ASSUME_DEFAULT=0
 FAILED=()
 STEPS=() # struct: "name:function"
 
+# --------------------------------------------------- I M P O R T S ----------------------------------------------------
+
+# shellcheck disable=SC1090
+. "$REPO_DIR/lib/btop.sh" # btop helpers; defines install_btop()
+
 # ------------------------------------------------- F U N C T I O N S --------------------------------------------------
 
 # Prompt the user for a yes or no answer.
@@ -80,10 +85,7 @@ function ask() {
 
 # ----------------------------------------------------- S T E P S ------------------------------------------------------
 
-# Note: The exit status of a function is the exit status of its last command. This means that to catch an error, it must
-# either be the last command, or we use another mechanism to throw the error upward. Either use && chaining, or
-# `set -e`, which is function-scoped and terminate function execution on failure. Note, however, that it does
-# not work in if statements or `&&`/`||` chains. It also only works if the functions are subshell commands - () instead of {}.
+# Note: The exit status of a function is the exit status of its last command.
 
 function system_update() {
     sudo env DEBIAN_FRONTEND=noninteractive apt-get update \
@@ -97,15 +99,6 @@ function system_update() {
 function remove_snapd() {
     sudo env DEBIAN_FRONTEND=noninteractive apt-get purge -y snapd \
         && sudo env DEBIAN_FRONTEND=noninteractive apt-get autopurge -y
-}
-
-function install_btop() {
-    apt_install make cmake g++ git \
-        && cd "$SRC_DIR" \
-        && rm -rf btop \
-        && git clone --depth 1 --recursive --branch "$BTOP_REF" https://github.com/aristocratos/btop \
-        && make -C btop -j"$(nproc)" \
-        && sudo make -C btop install
 }
 
 function install_neovim() {
