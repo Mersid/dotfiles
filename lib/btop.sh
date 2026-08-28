@@ -46,15 +46,14 @@ function install_btop() {
 
     local os_id="" os_ver=""
     if [[ -r /etc/os-release ]]; then
-        os_id="$(sed -n 's/^ID=//p' /etc/os-release | tr -d '"')"
-        os_ver="$(sed -n 's/^VERSION_ID=//p' /etc/os-release | tr -d '"')"
-        os_ver="${os_ver%%.*}"
+        os_id="$(. /etc/os-release && printf '%s' "${ID:-}")"
+        os_ver="$(. /etc/os-release && printf '%s' "${VERSION_ID%%.*}")"
     fi
 
     # Prefer the default g++ if capable, else try versioned ones from apt.
     local cxx="g++" cc="gcc" v
     if ! _gcc_ge g++ "$BTOP_MIN_GCC"; then
-        for v in "$BTOP_MIN_GCC" $((BTOP_MIN_GCC + 1)) $((BTOP_MIN_GCC + 2)); do
+        for v in $(seq "$BTOP_MIN_GCC" $((BTOP_MIN_GCC + 2))); do
             if apt_install "g++-$v" "gcc-$v" && _gcc_ge "g++-$v" "$BTOP_MIN_GCC"; then
                 cxx="g++-$v"; cc="gcc-$v"
                 break

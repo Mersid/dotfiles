@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: shellcheck init.sh
+      - run: shellcheck init.sh lib/btop.sh
 
   smoke:
     # Pushes/PRs: always. Manual runs: only when "smoke" was picked.
