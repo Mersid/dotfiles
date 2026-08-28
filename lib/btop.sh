@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # lib/btop.sh - btop installer with compiler-capability detection.
 #
 # Expects to be sourced by the init script, which provides:
@@ -23,13 +24,14 @@ function _gcc_ge() {
 
 # Toolchain-independent fallback: official static musl build from upstream.
 function _btop_install_static() {
-    local arch tmp rc=0
-    case "$(uname -m)" in
+    local arch tmp rc=0 machine
+    machine="$(uname -m)"
+    case "$machine" in
         x86_64)        arch="x86_64" ;;
         aarch64|arm64) arch="aarch64" ;;
-        *) echo "install_btop: no static btop build for $(uname -m)" >&2; return 1 ;;
+        *) echo "install_btop: no static btop build for $machine" >&2; return 1 ;;
     esac
-    tmp="$(mktemp -d)"
+    tmp="$(mktemp -d)" || return 1
     curl -fLo "$tmp/btop.tbz" \
         "https://github.com/aristocratos/btop/releases/latest/download/btop-${arch}-linux-musl.tbz" \
     && tar -xjf "$tmp/btop.tbz" -C "$tmp" \
@@ -46,14 +48,15 @@ function install_btop() {
 
     local os_id="" os_ver=""
     if [[ -r /etc/os-release ]]; then
-        os_id="$(. /etc/os-release && printf '%s' "${ID:-}")"
-        os_ver="$(. /etc/os-release && printf '%s' "${VERSION_ID%%.*}")"
+        os_id="$(sed -n 's/^ID=//p' /etc/os-release | tr -d '"')"
+        os_ver="$(sed -n 's/^VERSION_ID=//p' /etc/os-release | tr -d '"')"
+        os_ver="${os_ver%%.*}"
     fi
 
     # Prefer the default g++ if capable, else try versioned ones from apt.
     local cxx="g++" cc="gcc" v
     if ! _gcc_ge g++ "$BTOP_MIN_GCC"; then
-        for v in $(seq "$BTOP_MIN_GCC" $((BTOP_MIN_GCC + 2))); do
+        for v in "$BTOP_MIN_GCC" $((BTOP_MIN_GCC + 1)) $((BTOP_MIN_GCC + 2)); do
             if apt_install "g++-$v" "gcc-$v" && _gcc_ge "g++-$v" "$BTOP_MIN_GCC"; then
                 cxx="g++-$v"; cc="gcc-$v"
                 break
