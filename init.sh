@@ -11,6 +11,7 @@ REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 SRC_DIR="$HOME/.localbin" # For source-compiled stuff.
 
 # Pinned version tags.
+# shellcheck disable=SC2034 # Consumed inside lib/btop.sh.
 BTOP_REF="v1.4.7" # https://github.com/aristocratos/btop/releases
 NEOVIM_REF="stable" # neovim's "stable" branch = latest release; master can break
 
@@ -25,7 +26,7 @@ STEPS=() # struct: "name:function"
 
 # --------------------------------------------------- I M P O R T S ----------------------------------------------------
 
-# shellcheck disable=SC1090
+# shellcheck source=lib/btop.sh
 . "$REPO_DIR/lib/btop.sh" # btop helpers; defines install_btop()
 
 # ------------------------------------------------- F U N C T I O N S --------------------------------------------------
