@@ -124,7 +124,7 @@ function install_zoxide() {
     cargo install --locked zoxide # crates.io, no clone
 }
 function install_lsd() {
-    cargo install --locked --git https://github.com/Mersid/lsd # TODO: Track this via tags or something.
+    cargo install --locked lsd
 }
 
 function install_nala() {
