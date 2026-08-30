@@ -123,8 +123,13 @@ function install_rust() {
 function install_zoxide() {
     cargo install --locked zoxide # crates.io, no clone
 }
+
 function install_lsd() {
     cargo install --locked lsd
+}
+
+function install_zellij() {
+    cargo install --locked zellij
 }
 
 function install_nala() {
@@ -152,7 +157,7 @@ function backup_if_real() {
 function link_configs() {
     mkdir -p "$HOME/.config" || return 1
     local name
-    for name in btop nvim tmux; do
+    for name in btop nvim tmux zellij; do
         backup_if_real "$HOME/.config/$name" && ln -sfn "$REPO_DIR/.config/$name" "$HOME/.config/$name"
     done
     backup_if_real "$HOME/.vimrc" && ln -sfn "$REPO_DIR/.vimrc" "$HOME/.vimrc"
@@ -184,6 +189,7 @@ if prompt "Do you want to install any tools? Doing so will require root privileg
     if ask "Install Rust toolchain? [Y/n] " "rust" install_rust; then
         ask "Install lsd? [Y/n] " "lsd" install_lsd
         ask "Install zoxide? [Y/n] " "zoxide" install_zoxide
+        ask "Install zellij? [Y/n] " "zellij" install_zellij
     fi
 fi
 
