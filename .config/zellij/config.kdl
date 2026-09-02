@@ -2,13 +2,18 @@ keybinds clear-defaults=true {
     locked {
         bind "Ctrl a" { SwitchToMode "normal"; }
     }
+    normal {
+        bind "w" { SwitchToMode "tab"; }
+        bind "e" { SwitchToMode "pane"; }
+    }
     pane {
         bind "left" { MoveFocus "left"; }
         bind "down" { MoveFocus "down"; }
         bind "up" { MoveFocus "up"; }
         bind "right" { MoveFocus "right"; }
         bind ";" { FocusLastPane; }
-        bind "c" { SwitchToMode "renamepane"; PaneNameInput 0; }
+        bind "Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
+        bind "c" { NewPane; SwitchToMode "locked"; }
         bind "d" { NewPane "down"; SwitchToMode "locked"; }
         bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "locked"; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "locked"; }
@@ -28,6 +33,7 @@ keybinds clear-defaults=true {
         bind "tab" { SwitchFocus; }
     }
     tab {
+        bind "c" { NewTab; SwitchToMode "locked"; }
         bind "left" { GoToPreviousTab; }
         bind "down" { GoToNextTab; }
         bind "up" { GoToPreviousTab; }
